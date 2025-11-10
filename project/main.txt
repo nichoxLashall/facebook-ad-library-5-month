@@ -1,0 +1,56 @@
+To run Python code in ChatGPT, you'll need to be logged in. However, you can easily run the following code in your local Python environment to parse the directory structure from the README text.
+Here's the code:
+pythondirectory_structure = """
+facebook-ad-library-scraper/
+├── src/
+│ ├── runner.py
+│ ├── extractors/
+│ │ ├── facebook_parser.py
+│ │ └── utils_time.py
+│ ├── outputs/
+│ │ └── exporters.py
+│ └── config/
+│ └── settings.example.json
+├── data/
+│ ├── inputs.sample.txt
+│ └── sample.json
+├── requirements.txt
+└── README.md
+"""
+
+# Parsing the directory structure and splitting by lines to process it
+lines = directory_structure.strip().split("\n")
+
+# Files and folders that need to be processed
+files = []
+
+# Iterate over the lines to capture all the paths
+current_path = ""
+for line in lines:
+ if line.startswith("├──") or line.startswith("└──"):
+ # Extract the file name and build the path
+ file_name = line.strip("├── └──").strip()
+ if current_path:
+ file_path = f"{current_path}/{file_name}"
+ else:
+ file_path = file_name
+ files.append(file_path)
+ elif line.endswith("/"):
+ # It's a directory, set the current path
+ current_path = line.strip("├── └──").strip()
+ else:
+ # Reset path when we hit another root directory
+ current_path = ""
+
+print(files)
+
+How to run this:
+
+Copy the code above.
+
+Paste it into a Python file (e.g., parse_structure.py).
+
+Run the Python file in your terminal with python parse_structure.py.
+
+This will print out all the files and directories that need to be processed based on the README's directory structure.
+Let me know if you need help with anything else!
